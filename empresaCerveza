@@ -1,0 +1,178 @@
+package tdaempresas;
+/**
+ * @author SEBASTIAN
+ */
+import java.util.Scanner;
+class EmpresaCerveza {
+    private int latasAcumuladas;
+    private int sixPacksCompletos;
+    private static final int LATAS_POR_SIXPACK = 6;
+    
+    public EmpresaCerveza(int stockInicial) {
+        this.latasAcumuladas = stockInicial;
+        this.sixPacksCompletos = 0;
+        procesarStockInicial();
+    }
+    
+    private void procesarStockInicial() {
+        if (latasAcumuladas >= LATAS_POR_SIXPACK) {
+            sixPacksCompletos = latasAcumuladas / LATAS_POR_SIXPACK;
+            latasAcumuladas = latasAcumuladas % LATAS_POR_SIXPACK;
+        }
+    }
+    
+    public void agregarLata() {
+        latasAcumuladas++;
+        System.out.println("Lata agregada. Latas acumuladas: " + latasAcumuladas);
+        
+        if (latasAcumuladas == LATAS_POR_SIXPACK) {
+            sixPacksCompletos++;
+            latasAcumuladas = 0;
+            System.out.println("¡Six-pack completado! Total de six-packs: " + sixPacksCompletos);
+        }
+    }
+ 
+    public int obtenerSixPacksCompletos() {
+        return sixPacksCompletos;
+    }
+ 
+    public int obtenerLatasAcumuladas() {
+        return latasAcumuladas;
+    }
+    
+    public void mostrarEstado() {
+        System.out.println("\n=== EMPRESA DE CERVEZA ===");
+        System.out.println("Latas acumuladas: " + latasAcumuladas);
+        System.out.println("Six-packs completos: " + sixPacksCompletos);
+        if (latasAcumuladas == 0 && sixPacksCompletos > 0) {
+            System.out.println("¡Todos los six-packs están completos!");
+        }
+        System.out.println("==========================");
+    }
+}
+
+/**
+ * Clase que representa una Empresa de Dulces
+ * @author SEBASTIAN
+ */
+class EmpresaDulces {
+    private int dulcesAcumulados;
+    private int paquetesCompletos;
+    private static final int PASTILLAS_POR_PAQUETE = 10;
+    
+    public EmpresaDulces(int stockInicial) {
+        this.dulcesAcumulados = stockInicial;
+        this.paquetesCompletos = 0;
+        procesarStockInicial();
+    }
+    
+    private void procesarStockInicial() {
+        if (dulcesAcumulados >= PASTILLAS_POR_PAQUETE) {
+            paquetesCompletos = dulcesAcumulados / PASTILLAS_POR_PAQUETE;
+            dulcesAcumulados = dulcesAcumulados % PASTILLAS_POR_PAQUETE;
+        }
+    }
+    
+    public void agregarDulce() {
+        dulcesAcumulados++;
+        System.out.println("Dulce agregado. Dulces acumulados: " + dulcesAcumulados);
+        
+        if (dulcesAcumulados == PASTILLAS_POR_PAQUETE) {
+            paquetesCompletos++;
+            dulcesAcumulados = 0;
+            System.out.println("¡Paquete completado! Total de paquetes: " + paquetesCompletos);
+        }
+    }
+    
+    public int obtenerPaquetesCompletos() {
+        return paquetesCompletos;
+    }
+    
+    public int obtenerDulcesAcumulados() {
+        return dulcesAcumulados;
+    }
+    
+    public void mostrarEstado() {
+        System.out.println("\n=== EMPRESA DE DULCES ===");
+        System.out.println("Dulces acumulados: " + dulcesAcumulados);
+        System.out.println("Paquetes completos: " + paquetesCompletos);
+        if (dulcesAcumulados == 0 && paquetesCompletos > 0) {
+            System.out.println("¡Todos los paquetes están completos!");
+        }
+        System.out.println("========================");
+    }
+}
+
+/**
+ * Clase principal que gestiona la interacción con el usuario
+ * @author SEBASTIAN
+ */
+public class SistemaEmpresas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== SISTEMA DE GESTIÓN DE EMPRESAS ===\n");
+        
+        // Selección de empresa
+        System.out.println("Seleccione la empresa:");
+        System.out.println("1. Empresa de Dulces");
+        System.out.println("2. Empresa de Cerveza");
+        System.out.print("Ingrese su opción (1 o 2): ");
+        
+        int opcionEmpresa = scanner.nextInt();
+        
+        // Establecer stock inicial
+        System.out.print("\nIngrese el stock inicial: ");
+        int stockInicial = scanner.nextInt();
+        
+        if (opcionEmpresa == 1) {
+            gestionarEmpresaDulces(stockInicial, scanner);
+        } else if (opcionEmpresa == 2) {
+            gestionarEmpresaCerveza(stockInicial, scanner);
+        } else {
+            System.out.println("Opción no válida.");
+        }
+        
+        scanner.close();
+    }
+    
+    public static void gestionarEmpresaDulces(int stockInicial, Scanner scanner) {
+        EmpresaDulces empresa = new EmpresaDulces(stockInicial);
+        
+        System.out.println("\nEmpresa de Dulces inicializada con stock de " + stockInicial + " dulces.");
+        empresa.mostrarEstado();
+        
+        char continuar;
+        do {
+            System.out.print("\n¿Desea agregar un dulce? (s/n): ");
+            continuar = scanner.next().charAt(0);
+            
+            if (continuar == 's' || continuar == 'S') {
+                empresa.agregarDulce();
+                empresa.mostrarEstado();
+            }
+        } while (continuar == 's' || continuar == 'S');
+        
+        System.out.println("\nSaliendo de la gestión de dulces...");
+    }
+    
+    public static void gestionarEmpresaCerveza(int stockInicial, Scanner scanner) {
+        EmpresaCerveza empresa = new EmpresaCerveza(stockInicial);
+        
+        System.out.println("\nEmpresa de Cerveza inicializada con stock de " + stockInicial + " latas.");
+        empresa.mostrarEstado();
+        
+        char continuar;
+        do {
+            System.out.print("\n¿Desea agregar una lata? (s/n): ");
+            continuar = scanner.next().charAt(0);
+            
+            if (continuar == 's' || continuar == 'S') {
+                empresa.agregarLata();
+                empresa.mostrarEstado();
+            }
+        } while (continuar == 's' || continuar == 'S');
+        
+        System.out.println("\nSaliendo de la gestión de cerveza...");
+    }
+}
