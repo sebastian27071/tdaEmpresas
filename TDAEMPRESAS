@@ -1,0 +1,82 @@
+package tdaempresas;
+
+
+
+/**
+ *
+ * @author Sebastian
+ */
+import java.util.Scanner;
+public class TDAEMPRESAS {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("=== SISTEMA DE GESTIÓN DE EMPRESAS ===\n");
+        
+        // Selección de empresa
+        System.out.println("Seleccione la empresa:");
+        System.out.println("1. Empresa de Dulces");
+        System.out.println("2. Empresa de Cerveza");
+        System.out.print("Ingrese su opción (1 o 2): ");
+        
+        int opcionEmpresa = scanner.nextInt();
+        
+        // Establecer stock inicial
+        System.out.print("\nIngrese el stock inicial: ");
+        int stockInicial = scanner.nextInt();
+        
+        if (opcionEmpresa == 1) {
+            gestionarEmpresaDulces(stockInicial, scanner);
+        } else if (opcionEmpresa == 2) {
+            gestionarEmpresaCerveza(stockInicial, scanner);
+        } else {
+            System.out.println("Opción no válida.");
+        }
+        
+        scanner.close();
+    }
+    
+    public static void gestionarEmpresaDulces(int stockInicial, Scanner scanner) {
+        EmpresaDulces empresa = new EmpresaDulces(stockInicial);
+        
+        System.out.println("\nEmpresa de Dulces inicializada con stock de " + stockInicial + " dulces.");
+        empresa.mostrarEstado();
+        
+        char continuar;
+        do {
+            System.out.print("\n¿Desea agregar un dulce? (s/n): ");
+            continuar = scanner.next().charAt(0);
+            
+            if (continuar == 's' || continuar == 'S') {
+                empresa.agregarDulce();
+                empresa.mostrarEstado();
+            }
+        } while (continuar == 's' || continuar == 'S');
+        
+        System.out.println("\nSaliendo de la gestión de dulces...");
+    }
+    
+    public static void gestionarEmpresaCerveza(int stockInicial, Scanner scanner) {
+        EmpresaCerveza empresa = new EmpresaCerveza(stockInicial);
+        
+        System.out.println("\nEmpresa de Cerveza inicializada con stock de " + stockInicial + " latas.");
+        empresa.mostrarEstado();
+        
+        char continuar;
+        do {
+            System.out.print("\n¿Desea agregar una lata? (s/n): ");
+            continuar = scanner.next().charAt(0);
+            
+            if (continuar == 's' || continuar == 'S') {
+                empresa.agregarLata();
+                empresa.mostrarEstado();
+            }
+        } while (continuar == 's' || continuar == 'S');
+        
+        System.out.println("\nSaliendo de la gestión de cerveza...");
+    }
+}
